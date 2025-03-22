@@ -7,6 +7,9 @@ const connection = require("./database/db");
 app.use(express.json());
 app.use(cors());
 
+const authRouter=require("./routers/auth.routher");
+app.use("/api/auth",authRouter);
+
 connection();
 
 //mongodb+srv://evopartion:<db_password>@eticaretdb.skcno.mongodb.net/?retryWrites=true&w=majority&appName=ETicaretDb
