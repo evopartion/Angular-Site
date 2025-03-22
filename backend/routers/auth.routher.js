@@ -34,6 +34,28 @@ router.post("/register",async(req,res)=>{
         console.log("505",error);
     }
 
-})
+});
+
+router.post("/login",async(req,res)=>{
+    try{
+        const{email,password}=req.body;
+        let user = await User.findOne({email:email});
+        if(user==null){
+            res.status(403).json({message:"Kullanıcı Bulunamadı"});
+
+        }else{
+            if(user.password!=password){
+                res.status(403).json({message:"Şifre Yanlış"});
+            }else{
+                const token=jwt.sign({},secretKey,options);
+                let model = {token:token,user:user};
+                res.json(model);
+            }
+        }
+    } catch (error){
+            res.status(500).json({message:error.message});
+        }
+    }
+);
 
 module.exports=router;
