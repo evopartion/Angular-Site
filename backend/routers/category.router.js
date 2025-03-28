@@ -6,7 +6,12 @@ const {v4:uuidv4} = require("uuid");
 router.post("/add", async(req,res)=>{
     try {
         const {name} = req.body;
-         const category = new Category({
+        
+        const checkName = await Category.findOne({name: name});
+        if(checkName != null){
+            res.status(403).json({message: "Bu kategori adı daha önce kullanılmış!"});
+        }else{
+            const category = new Category({
                 _id: uuidv4(),
                 name: name
             });
@@ -15,7 +20,7 @@ router.post("/add", async(req,res)=>{
             res.json({message: "Kategori kaydı başarıyla tamamlandı!"});
         }
         
-     catch (error) {
+    } catch (error) {
         res.stats(500).json({message: error.message});
     }
 })
