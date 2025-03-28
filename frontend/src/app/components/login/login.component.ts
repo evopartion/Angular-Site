@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { SharedModule } from '../../common/shared/shared.module';
 import { NgForm } from '@angular/forms';
+import { AuthService } from './services/auth.service';
+import { LoginModel } from './services/models/login.model';
 import { ToastrService } from 'ngx-toastr';
-import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,21 +14,24 @@ import { NgxSpinnerComponent, NgxSpinnerService } from 'ngx-spinner';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-
-  constructor(
-    private _toastr:ToastrService,
-    private _spinner:NgxSpinnerService
-  ){
-    this._spinner.show();
-    setTimeout(() => {
-      this._spinner.hide();
-    },5000)
-  }
-
+    constructor(
+      private _auth:AuthService,
+      private _toastr: ToastrService,
+      private _router:Router
+    ){}
 
   login(form:NgForm){
     if(form.valid){
-      console.log(form.value);
+      let model = new LoginModel();
+      model.email = form.controls["email"].value;
+      model.pasword = form.controls["password"].value;
+
+      this._auth.login(model,res=>{
+        this._toastr.success("Giriş Başarılı");
+        localStorage.setItem("token",res.token);
+        localStorage.setItem("user",JSON.stringify(res.user));
+        this._router.navigateByUrl("/");
+      })
     }
   }
 
