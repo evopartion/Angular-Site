@@ -1,4 +1,4 @@
-const express =require("express");
+const express = require("express");
 const app = express();
 const cors=require("cors");
 const connection = require("./database/db");
@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(cors());
 
 const authRouter=require("./routers/auth.routher");
-const categoryRouter=require("./routers/category.router");
+const categoryRouter = require("./routers/category.router");
 
 app.use("/api/auth",authRouter);
 app.use("/api/categories",categoryRouter);
