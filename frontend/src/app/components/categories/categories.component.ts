@@ -5,16 +5,18 @@ import { CategoryService } from './services/category.service';
 import { NgForm } from '@angular/forms';
 import { SharedModule } from '../../common/shared/shared.module';
 import { SwalService } from '../../common/services/swal.service';
+import { CategoryPipe } from './pipes/category.pipe';
 
 @Component({
   selector: 'app-categories',
-  imports: [SharedModule],
+  imports: [SharedModule,CategoryPipe],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css'
 })
 export class CategoriesComponent implements OnInit {
   categories: CategoryModel[] = [];
   updateCategory: CategoryModel = new CategoryModel();
+  search:string="";
 
   constructor(
     private _toastr: ToastrService,
