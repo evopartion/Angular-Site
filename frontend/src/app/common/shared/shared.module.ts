@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { ValidDirective } from '../directives/valid.directive';
 import { BlankComponent } from '../components/blank/blank.component';
 import { TableComponent } from '../components/table/table.component';
+import { TrCurrencyPipe } from 'tr-currency';
+
 
 
 
@@ -16,7 +18,8 @@ import { TableComponent } from '../components/table/table.component';
     RouterModule,
     ValidDirective,
     BlankComponent,
-    TableComponent
+    TableComponent,
+    TrCurrencyPipe
   ],
   exports:[
     CommonModule,
@@ -24,7 +27,8 @@ import { TableComponent } from '../components/table/table.component';
     RouterModule,
     ValidDirective,
     BlankComponent,
-    TableComponent
+    TableComponent,
+    TrCurrencyPipe
   ]
 })
 export class SharedModule { }
