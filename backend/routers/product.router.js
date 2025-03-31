@@ -89,7 +89,8 @@ router.post("/changeActiveStatus", async(req, res)=> {
         const {_id} = req.body;
         let product = await Product.findById(_id);
         product.isActive = !product.isActive;
-        await Product.findByIdAndUpdate(_id, product);
+        var result = await Product.findByIdAndUpdate(_id, product);
+        console.log(result);
         res.json({message: "Ürünün durumu başarıyla değiştirildi!"});
     });
 });
@@ -109,9 +110,9 @@ router.post("/update", upload.array("images"), async(req, res)=> {
         const {_id, name, stock, price, categories} = req.body;
 
         let product = await Product.findById(_id);
-        for(const image of product.imageUrls){
-            fs.unlink(image.path, ()=> {});
-        }
+        // for(const image of product.imageUrls){
+        //     fs.unlink(image.path, ()=> {});
+        // }
 
         let imageUrls;
         imageUrls = [...product.imageUrls,...req.files]
@@ -120,7 +121,7 @@ router.post("/update", upload.array("images"), async(req, res)=> {
             stock: stock,
             price: price,
             imageUrls: imageUrls,
-            categories: categories
+            categories: categories,           
         };
         await Product.findByIdAndUpdate(_id, product);
         res.json({message: "Ürün kaydı başarıyla güncellendi!"});
@@ -128,7 +129,7 @@ router.post("/update", upload.array("images"), async(req, res)=> {
 });
 
 //Ürün Resmi Sil
-router.post("/removeImageBuProductIdAndIndex", async(req, res)=>{
+router.post("/removeImageByProductIdAndIndex", async(req, res)=>{
     response(res, async()=>{
         const {_id, index}= req.body;
 
